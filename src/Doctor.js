@@ -19,7 +19,7 @@ const DoctorForm = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http://localhost:8282/doctors');
+      const response = await axios.get(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors`);
       setDoctorsList(response.data);
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -33,7 +33,7 @@ const DoctorForm = () => {
 
   const handleSubmit = async (index) => {
     try {
-      await axios.post(`http://localhost:8282/doctors`, doctorData);
+      await axios.post(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors`, doctorData);
       setEditingIndex(null);
       setDoctorData({
         name: '',
@@ -57,7 +57,7 @@ const DoctorForm = () => {
 
   const handleDeleteDoctor = async (doctorId) => {
     try {
-      await axios.delete(`http://localhost:8282/doctors/${doctorId}`);
+      await axios.delete(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors/${doctorId}`);
       console.log('Doctor deleted successfully');
       // Optionally, update the state or perform any other actions after deletion
     } catch (error) {
@@ -71,7 +71,7 @@ const DoctorForm = () => {
       if (editingIndex !== null) {
         await handleSubmit(editingIndex);
       } else {
-        const response = await axios.post('http://localhost:8282/doctors', doctorData);
+        const response = await axios.post(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors`, doctorData);
         console.log('Doctor created:', response.data);
         setDoctorData({
           name: '',

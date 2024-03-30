@@ -12,7 +12,7 @@ const PatientForm = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get('http://localhost:8282/patients');
+      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients');
       setPatients(response.data);
     } catch (error) {
       console.error('Error fetching patients:', error);
@@ -21,7 +21,7 @@ const PatientForm = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http://localhost:8282/doctors');
+      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors');
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctor data:', error);
@@ -42,7 +42,7 @@ const PatientForm = () => {
   const handleUpdate = async (id) => {
     const patientToUpdate = patients.find(patient => patient.id === id);
     try {
-      await axios.put(`http://localhost:8282/patients/${id}`, patientToUpdate);
+      await axios.put(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients/${id}`, patientToUpdate);
       // Refresh patient list after update
       fetchPatients();
     } catch (error) {

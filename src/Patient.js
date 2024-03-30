@@ -21,7 +21,7 @@ const PatientForm = () => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get('http://localhost:8282/patients');  // Update endpoint URL
+      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients');  // Update endpoint URL
       setPatients(response.data);
     } catch (error) {
       console.error('Error fetching patients:', error);
@@ -30,7 +30,7 @@ const PatientForm = () => {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get('http://localhost:8282/doctors');  // Update endpoint URL
+      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors');  // Update endpoint URL
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctor data:', error);
@@ -54,7 +54,7 @@ const PatientForm = () => {
     const selectedDoctor = doctors.find(doctor => doctor.id === parseInt(patientData.doctorId));
     const updatedPatientData = { ...patientData, doctor: selectedDoctor };
   
-    axios.post('http://localhost:8282/patients', updatedPatientData)
+    axios.post('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients', updatedPatientData)
       .then(response => {
         console.log('Patient added:', response.data);
         fetchPatients(); // Fetch updated list of patients
@@ -86,7 +86,7 @@ const PatientForm = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8282/patients/${id}`);  // Update endpoint URL
+      await axios.delete(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients/${id}`);  // Update endpoint URL
       console.log('Patient deleted:', id);
       // Update patient list after deletion
       setPatients(patients.filter(patient => patient.id !== id));
