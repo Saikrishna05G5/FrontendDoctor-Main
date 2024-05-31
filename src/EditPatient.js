@@ -1,120 +1,75 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PatientForm = () => {
-  const [patients, setPatients] = useState([]);
-  const [doctors, setDoctors] = useState([]);
+const EditPatient = ({ patientId, onClose, onUpdate }) => {
+  const [patientData, setPatientData] = useState({
+    name: '',
+    weight: '',
+    gender: '',
+    age: '',
+    disease: '',
+  });
 
   useEffect(() => {
-    fetchPatients();
-    fetchDoctors();
-  }, []);
-
-  const fetchPatients = async () => {
-    try {
-      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients');
-      setPatients(response.data);
-    } catch (error) {
-      console.error('Error fetching patients:', error);
-    }
-  };
-
-  const fetchDoctors = async () => {
-    try {
-      const response = await axios.get('http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/doctors');
-      setDoctors(response.data);
-    } catch (error) {
-      console.error('Error fetching doctor data:', error);
-    }
-  };
-
-  const handleChange = (e, id) => {
-    const { name, value } = e.target;
-    const updatedPatients = patients.map(patient => {
-      if (patient.id === id) {
-        return { ...patient, [name]: value };
+    const fetchPatient = async () => {
+      try {
+        const response = await axios.get(`http://doctorsproject-env-1.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com//patients/${patientId}`);
+        setPatientData(response.data);
+      } catch (error) {
+        console.error('Error fetching patient data:', error);
       }
-      return patient;
-    });
-    setPatients(updatedPatients);
+    };
+
+    fetchPatient();
+  }, [patientId]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setPatientData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleUpdate = async (id) => {
-    const patientToUpdate = patients.find(patient => patient.id === id);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      await axios.put(`http://doctorsproject-env.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com/patients/${id}`, patientToUpdate);
-      // Refresh patient list after update
-      fetchPatients();
+      await axios.put(`http://doctorsproject-env-1.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com//patients/${patientId}`, patientData);
+      onUpdate();
     } catch (error) {
       console.error('Error updating patient:', error);
     }
   };
 
   return (
-    <center>
-      <div>
-        <h2>Patient Records</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Weight</th>
-              <th>Gender</th>
-              <th>Age</th>
-              <th>Disease</th>
-              <th>Doctor</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient) => (
-              <tr key={patient.id}>
-                <td>
-                  <input 
-                    type="text" 
-                    value={patient.name} 
-                    onChange={(e) => handleChange(e, patient.id)} 
-                  />
-                </td>
-                <td>
-                  <input 
-                    type="text" 
-                    value={patient.weight} 
-                    onChange={(e) => handleChange(e, patient.id)} 
-                  />
-                </td>
-                <td>
-                  <input 
-                    type="text" 
-                    value={patient.gender} 
-                    onChange={(e) => handleChange(e, patient.id)} 
-                  />
-                </td>
-                <td>
-                  <input 
-                    type="text" 
-                    value={patient.age} 
-                    onChange={(e) => handleChange(e, patient.id)} 
-                  />
-                </td>
-                <td>
-                  <input 
-                    type="text" 
-                    value={patient.disease} 
-                    onChange={(e) => handleChange(e, patient.id)} 
-                  />
-                </td>
-                <td>{patient.doctor ? `${patient.doctor.name} - ${patient.doctor.specialization}` : 'Not Assigned'}</td>
-                <td>
-                  <button onClick={() => handleUpdate(patient.id)}>Update</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </center>
+    <div>
+      <h3>Edit Patient</h3>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+          <input type="text" name="name" value={patientData.name} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input type="text" name="weight" value={patientData.weight} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Gender:</label>
+          <input type="text" name="gender" value={patientData.gender} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Age:</label>
+          <input type="text" name="age" value={patientData.age} onChange={handleChange} />
+        </div>
+        <div>
+          <label>Disease:</label>
+          <input type="text" name="disease" value={patientData.disease} onChange={handleChange} />
+        </div>
+        <button type="submit">Update</button>
+        <button type="button" onClick={onClose}>Cancel</button>
+      </form>
+    </div>
   );
 };
 
-export default PatientForm;
+export default EditPatient;
