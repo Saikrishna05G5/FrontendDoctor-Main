@@ -13,7 +13,7 @@ const EditPatient = ({ patientId, onClose, onUpdate }) => {
   useEffect(() => {
     const fetchPatient = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/patients/${patientId}`);
+        const response = await axios.get(`https://doctorbackend-main-production.up.railway.app/patients/${patientId}`);
         setPatientData(response.data);
       } catch (error) {
         console.error('Error fetching patient data:', error);
@@ -34,7 +34,7 @@ const EditPatient = ({ patientId, onClose, onUpdate }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/patients/${patientId}`, patientData);
+      await axios.put(`https://doctorbackend-main-production.up.railway.app/patients/${patientId}`, patientData);
       onUpdate();
     } catch (error) {
       console.error('Error updating patient:', error);

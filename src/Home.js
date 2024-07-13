@@ -13,8 +13,8 @@ const Home = () => {
 
     const fetchPatientsAndDoctors = async () => {
       try {
-        const patientsResponse = await axios.get('http://localhost:5000/patients'); // Replace with your actual endpoint
-        const doctorsResponse = await axios.get('http://localhost:5000/doctors'); // Replace with your actual endpoint
+        const patientsResponse = await axios.get('https://doctorbackend-main-production.up.railway.app/patients'); // Replace with your actual endpoint
+        const doctorsResponse = await axios.get('https://doctorbackend-main-production.up.railway.app/doctors'); // Replace with your actual endpoint
         setPatients(patientsResponse.data);
         setDoctors(doctorsResponse.data);
       } catch (error) {
@@ -48,7 +48,7 @@ const Home = () => {
 
   const handleDelete = async (patientId) => {
     try {
-      await axios.delete(`http://localhost:5000/${patientId}`);
+      await axios.delete(`https://doctorbackend-main-production.up.railway.app/${patientId}`);
 
       setPatients((prevPatients) => prevPatients.filter((patient) => patient.id !== patientId));
     } catch (error) {
