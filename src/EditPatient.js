@@ -13,7 +13,7 @@ const EditPatient = ({ patientId, onClose, onUpdate }) => {
   useEffect(() => {
     const fetchPatient = async () => {
       try {
-        const response = await axios.get(`http://doctorsproject-env-1.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com//patients/${patientId}`);
+        const response = await axios.get(`http://localhost:5000/patients/${patientId}`);
         setPatientData(response.data);
       } catch (error) {
         console.error('Error fetching patient data:', error);
@@ -34,7 +34,7 @@ const EditPatient = ({ patientId, onClose, onUpdate }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.put(`http://doctorsproject-env-1.eba-kkdfqd2m.ap-south-1.elasticbeanstalk.com//patients/${patientId}`, patientData);
+      await axios.put(`http://localhost:5000/patients/${patientId}`, patientData);
       onUpdate();
     } catch (error) {
       console.error('Error updating patient:', error);
